@@ -1,0 +1,71 @@
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+
+<h1>My shopping Cart</h1>
+
+<select id="item-selector">
+</select>
+<button id="add">Add</button>
+
+<table id="table">
+  <thead>
+    <th>Name</th>
+    <th>Price</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Bag</td>
+      <td>20</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4>Total</h4>
+<div id="total"></div>
+
+
+<script>
+var availableItems = [{
+    id: 1,
+    name: 'Bag',
+    price: '20'
+}, {
+    id: 2,
+    name: 'Ball',
+    price: '10'
+}, {
+    id: 3,
+    name: 'Bat',
+    price: '15'
+}];
+
+function renderSelectBox(items) {
+  var selectBox = $('#item-selector');
+  for(var index in items) {
+    var option = $(`<option value="${items[index].id}">${items[index].name}</option>`);
+    option.appendTo(selectBox);
+  }
+}
+
+renderSelectBox(availableItems);
+
+function addToList(selectedItem){
+  var row = $(`<tr> <td>${selectedItem.name}</td> <td>${selectedItem.price}</td> </tr>`);
+  var tbody = $('#table tbody');
+
+  row.appendTo(tbody);
+}
+
+var sum = _.reduce(availableItems, (memo, item) => Number(item.price) + memo, 0);
+console.log(sum);
+
+$('#add').click(function() {
+  var sItemId = $('#item-selector').val();
+  var selectedItem = _.find(availableItems, (item) => sItemId == item.id);
+
+  addToList(selectedItem);
+});
+</script>
